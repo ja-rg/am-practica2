@@ -2,6 +2,22 @@ import { StyleSheet } from "react-native";
 import { Colors } from "./Colors";
 
 export const styles = StyleSheet.create({
+    colaboradorContainer: {
+        backgroundColor: Colors.dark.background,
+        margin: 10,
+        padding: 10,
+        borderRadius: 5,
+    },
+
+    colaboradorName: {
+        color: Colors.dark.text,
+        fontSize: 20,
+        borderColor: Colors.dark.border,
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 5,
+    },
+
     container: {
         flex: 1,
         backgroundColor: Colors.dark.background,
@@ -118,5 +134,31 @@ export const styles = StyleSheet.create({
         marginBottom: 20,
 
         fontStyle: 'italic',
+    },
+
+    body_text: {
+        color: Colors.dark.text,
+        fontSize: 16,
+        marginBottom: 20,
+    },
+
+    camera: {
+        height: 300,
+        width: 300,
+        alignSelf: 'center',
+        borderRadius: 20,
+        overflow: 'hidden',
+        shadowColor: Colors.dark.text,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
+        elevation: 8,
+    },
+
+    cameraActions: {
+        flex: 1,
+        backgroundColor: Colors.dark.background,
+        justifyContent: 'flex-end',
+        padding: 20,
     },
 });
