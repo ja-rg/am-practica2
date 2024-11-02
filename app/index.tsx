@@ -72,6 +72,10 @@ const styles = StyleSheet.create({
     textShadowColor: Colors.dark.shadow,
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 1,
+
+    borderBottomColor: Colors.dark.border,
+    borderBottomWidth: 1,
+    padding: 10,
   },
   input: {
     width: '80%',
