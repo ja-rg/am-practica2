@@ -1,6 +1,12 @@
 type User = {
     username: string;
     email: string;
+    credits: number;
+    firstname: string;
+    lastname: string;
+    pfp_url: string;
+    xp: number;
+    id: string;
 };
 
 import React, { createContext, useState, ReactNode, useContext } from 'react';
