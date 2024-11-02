@@ -1,11 +1,8 @@
 import { styles } from "@/constants/Styles";
 import { useUser } from "@/context/User"
 import { Link, Stack, useRouter } from "expo-router";
-import { Ionicons } from '@expo/vector-icons';
-
 import { Text, View, Pressable, TouchableOpacity } from 'react-native';
 import { Image } from "expo-image";
-import { TouchableHighlight } from "react-native-gesture-handler";
 import { NotLogged } from "@/components/not-logged";
 
 export default function Home() {
@@ -18,7 +15,7 @@ export default function Home() {
 
     return <View style={styles.container}>
         <Stack.Screen options={{ title: 'Mi perfil' }} />
-        <TouchableOpacity onPress={() => { alert(`Hola ${user.pfp_url}`) }}>
+        <TouchableOpacity onPress={() => { router.push(`/change-pfp`) }}>
             <Image source={user.pfp_url} style={styles.pfp} />
         </TouchableOpacity>
 
