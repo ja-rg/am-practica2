@@ -1,5 +1,5 @@
-import { CameraCapturedPicture, CameraView } from 'expo-camera';
-import React, { useState, useRef, useEffect } from 'react';
+import { CameraCapturedPicture, CameraType, CameraView } from 'expo-camera';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Alert, Pressable } from 'react-native';
 import { Image } from "expo-image";
 
@@ -23,6 +23,7 @@ export default function Home() {
     const [cameraRef, setCameraRef] = useState<CameraView | null>(null);
     const [isPreview, setIsPreview] = useState(false);
     const [capturedImage, setCapturedImage] = useState<CameraCapturedPicture | undefined>(undefined);
+    const [facing, setFacing] = useState<CameraType>("front");
 
     useEffect(() => {
         (async () => {
@@ -48,6 +49,10 @@ export default function Home() {
         setIsPreview(false);
     };
 
+    function toggleFacing() {
+        setFacing(facing === 'front' ? 'back' : 'front');
+    }
+
     const uploadImage = async () => {
         if (capturedImage) {
             try {
@@ -59,15 +64,12 @@ export default function Home() {
                 formData.append('token', 'code37');
                 formData.append('id', user.id); // Replace `userId` with the actual user ID
 
-                // Append the blob with a filename
-                formData.append('image', blob, 'profile_pic.jpg');
+                // Append the image
+                formData.append('image', blob, 'profile.jpg');
 
-                const uploadResponse = await fetch(API.registro, {
+                const uploadResponse = await fetch(API.perfil, {
                     method: 'POST',
                     body: formData,
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
                 });
 
                 if (uploadResponse.ok) {
@@ -128,8 +130,17 @@ export default function Home() {
                 <CameraView
                     style={styles.camera}
                     ref={(ref) => setCameraRef(ref)}
+                    facing={facing}
                 >
                     <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', marginBottom: 36, padding: 10 }}>
+                        <TouchableOpacity
+                            onPress={toggleFacing}
+                            style={styles.button}
+                        >
+                            <Text style={styles.button_text}>
+                                Cambiar cámara
+                            </Text>
+                        </TouchableOpacity>
                         <TouchableOpacity
                             onPress={takePicture}
                             style={styles.button}
