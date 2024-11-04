@@ -1,5 +1,4 @@
-import { Text, View, Pressable } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import { Text, View, Pressable, TextInput } from 'react-native';
 import { useState } from 'react';
 import { useUser } from '@/context/User';
 import { Link, router, Stack } from 'expo-router';
