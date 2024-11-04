@@ -8,6 +8,7 @@ import * as Crypto from 'expo-crypto';
 import { API } from '@/constants/API';
 
 export default function Register() {
+    const [id, setId] = useState('');
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -30,7 +31,7 @@ export default function Register() {
 
         const formData = new FormData();
         formData.append('token', 'code37');
-        formData.append('id', new Date().getTime().toString());
+        formData.append('id', '201');
         formData.append('username', username.replace(/\s+/g, ''));
         formData.append('pass', hashedPassword);
         formData.append('firstname', firstname);
@@ -59,6 +60,14 @@ export default function Register() {
             <Stack.Screen options={{ title: 'Registro' }} />
             <Ionicons name="person-add-outline" size={24} style={styles.icon} />
             <Text style={styles.title}>Registro</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Clave del usuario"
+                value={id}
+                onChangeText={setId}
+                keyboardType="default"
+                autoCapitalize="none"
+            />
             <TextInput
                 style={styles.input}
                 placeholder="Nombre de usuario"

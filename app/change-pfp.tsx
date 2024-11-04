@@ -1,17 +1,24 @@
+import { CameraCapturedPicture, CameraView } from 'expo-camera';
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Alert, Pressable } from 'react-native';
 import { Image } from "expo-image";
 
-import { Camera, CameraCapturedPicture, CameraView } from 'expo-camera';
+import { Camera } from 'expo-camera';
 import { styles } from "@/constants/Styles";
 import { useUser } from "@/context/User";
 import { NotLogged } from "@/components/not-logged";
 import { router, Stack } from "expo-router";
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
+import { API } from '@/constants/API';
 
 export default function Home() {
-    const { user } = useUser();
+    const { user, setUser } = useUser();
+
+    if (!user) {
+        return <NotLogged />;
+    }
+
     const [hasPermission, setHasPermission] = useState<boolean>(false);
     const [cameraRef, setCameraRef] = useState<CameraView | null>(null);
     const [isPreview, setIsPreview] = useState(false);
@@ -44,25 +51,46 @@ export default function Home() {
     const uploadImage = async () => {
         if (capturedImage) {
             try {
-                const response = await fetch('YOUR_API_ENDPOINT', {
+                const response = await fetch(capturedImage.uri);
+                const blob = await response.blob();
+
+                // Create a FormData object and append parameters
+                const formData = new FormData();
+                formData.append('token', 'code37');
+                formData.append('id', user.id); // Replace `userId` with the actual user ID
+
+                // Append the blob with a filename
+                formData.append('image', blob, 'profile_pic.jpg');
+
+                const uploadResponse = await fetch(API.registro, {
                     method: 'POST',
-                    body: JSON.stringify({
-                        image: capturedImage.base64,
-                    }),
+                    body: formData,
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
                 });
 
-                if (response.ok) {
+                if (uploadResponse.ok) {
+                    const responseData = await uploadResponse.json();
                     Alert.alert('Success', 'Profile picture updated successfully.');
-                    // Optionally, update user context or navigate
+                    console.log('Response:', responseData);
+                    // Update user context or navigate
+                    setUser({ ...user, pfp_url: responseData.url });
+                    router.back();
+
                 } else {
-                    Alert.alert('Error', 'Failed to update profile picture.');
+                    const errorData = await uploadResponse.json();
+                    Alert.alert('Error', errorData.error || 'Failed to update profile picture.');
                 }
             } catch (error) {
                 console.error('Error uploading image:', error);
                 Alert.alert('Error', 'An error occurred while uploading the image.');
             }
+        } else {
+            Alert.alert('No Image', 'Please capture an image before uploading.');
         }
     };
+
 
     if (!user) {
         return <NotLogged />;
