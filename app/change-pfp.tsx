@@ -25,6 +25,8 @@ export default function Home() {
     const [capturedImage, setCapturedImage] = useState<CameraCapturedPicture | undefined>(undefined);
     const [facing, setFacing] = useState<CameraType>("front");
 
+    const [appError, setAppError] = useState<boolean>(false);
+
     useEffect(() => {
         (async () => {
             const { status } = await Camera.requestCameraPermissionsAsync();
@@ -39,6 +41,7 @@ export default function Home() {
                 setIsPreview(true);
                 setCapturedImage(photo);
             } catch (error) {
+                setAppError(true);
                 console.error('Error taking picture:', error);
             }
         }
@@ -74,7 +77,12 @@ export default function Home() {
 
                 if (uploadResponse.ok) {
                     const responseData = await uploadResponse.json();
-                    Alert.alert('Success', 'Profile picture updated successfully.');
+                    if ('error' in responseData) {
+                        console.error('Error uploading image:', responseData.error);
+                        setAppError(true);
+                        return;
+                    }
+
                     console.log('Response:', responseData);
                     // Update user context or navigate
                     setUser({ ...user, pfp_url: responseData.url });
@@ -82,14 +90,16 @@ export default function Home() {
 
                 } else {
                     const errorData = await uploadResponse.json();
-                    Alert.alert('Error', errorData.error || 'Failed to update profile picture.');
+                    console.error('Error uploading image:', errorData);
+
+                    setAppError(true);
                 }
             } catch (error) {
-                console.error('Error uploading image:', error);
-                Alert.alert('Error', 'An error occurred while uploading the image.');
+                console.error('Error al cargar la imagen:', error);
+                setAppError(true);
             }
         } else {
-            Alert.alert('No Image', 'Please capture an image before uploading.');
+            console.log('Error, no se ha capturado ninguna imagen');
         }
     };
 
@@ -106,7 +116,7 @@ export default function Home() {
         return <View style={styles.container}>
             <Stack.Screen options={{ title: 'Mi perfil' }} />
             <Ionicons name="camera-outline" size={24} style={styles.icon} />
-            <Text style={styles.title}> No tienes permisos para usar la cámara</Text>
+            <Text style={{...styles.title, fontFamily: "Glametrix"}}> No tienes permisos para usar la cámara</Text>
             <Pressable onPress={() => router.back()} style={styles.button}>
                 <Text style={styles.button_text}>Volver</Text>
             </Pressable>
@@ -119,6 +129,8 @@ export default function Home() {
             {isPreview && capturedImage ? (
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Image source={capturedImage.uri} style={{ width: 300, height: 300 }} />
+                    {appError && <Text style={styles.error}>Error al capturar la imagen</Text>}
+
                     <TouchableOpacity onPress={retakePicture} style={styles.button}>
                         <Text style={styles.button_text}>Retake</Text>
                     </TouchableOpacity>

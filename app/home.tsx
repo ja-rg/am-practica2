@@ -4,11 +4,12 @@ import { Link, Stack, useRouter } from "expo-router";
 import { Text, View, Pressable, TouchableOpacity } from 'react-native';
 import { Image } from "expo-image";
 import { NotLogged } from "@/components/not-logged";
+import { useState } from "react";
+
 
 export default function Home() {
     const { user, setUser } = useUser()
     const router = useRouter()
-
     if (!user) {
         return <NotLogged />
     }
@@ -19,7 +20,7 @@ export default function Home() {
             <Image source={user.pfp_url} style={styles.pfp} />
         </TouchableOpacity>
 
-        <Text style={styles.title}>Usuario: {user.firstname}</Text>
+        <Text style={{...styles.title, fontFamily: "Glametrix"}}>Usuario: {user.firstname}</Text>
 
         <Text style={styles.label_data}>ID: <Text style={styles.data}>{user.id}</Text></Text>
         <Text style={styles.label_data}>Nombre: <Text style={styles.data}>{user.firstname} {user.lastname}</Text></Text>

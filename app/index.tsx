@@ -1,4 +1,6 @@
-import { Text, View, Pressable, TextInput } from 'react-native';
+import {
+  Text, View, Pressable, TextInput
+} from 'react-native';
 import { useState } from 'react';
 import { useUser } from '@/context/User';
 import { Link, router, Stack } from 'expo-router';
@@ -6,6 +8,8 @@ import { styles } from '@/constants/Styles';
 import { Ionicons } from '@expo/vector-icons';
 import * as Crypto from 'expo-crypto';
 import { API } from '@/constants/API';
+import { Colors } from '@/constants/Colors';
+
 
 export default function Login() {
   const { user, setUser } = useUser();
@@ -24,9 +28,12 @@ export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const [appError, setAppError] = useState<boolean>(false)
+
   function resetFields() {
     setUsername('');
     setPassword('');
+    setAppError(false);
   }
 
   async function handleLogin() {
@@ -39,7 +46,7 @@ export default function Login() {
     formData.append('token', 'code37');
     formData.append('user', username.replace(/\s+/g, ''));
     formData.append('pass', hashedPassword);
-    
+
 
     const response = await fetch(API.login, {
       method: 'POST',
@@ -52,6 +59,7 @@ export default function Login() {
 
     const data = await response.json();
     if ('error' in data) {
+      setAppError(true);
       return console.error(data.error);
     }
 
@@ -66,19 +74,25 @@ export default function Login() {
       <Stack.Screen options={{ title: 'Inicio de sesión' }} />
       <Ionicons name="person-circle-outline" size={24} style={styles.icon} />
       <Text style={styles.title}>Iniciar Sesión</Text>
+
+      {appError && <Text style={styles.error}>Error en el inicio de sesión</Text>}
       <TextInput
+        placeholderTextColor={Colors.dark.text}
         style={styles.input}
         placeholder="Nombre de usuario"
         value={username}
         onChangeText={setUsername}
+        onChange={() => setAppError(false)}
         keyboardType="email-address"
         autoCapitalize="none"
       />
       <TextInput
+        placeholderTextColor={Colors.dark.text}
         style={styles.input}
         placeholder="Contraseña"
         value={password}
         onChangeText={setPassword}
+        onChange={() => setAppError(false)}
         secureTextEntry
       />
       <Pressable onPress={handleLogin} style={styles.button}>

@@ -2,10 +2,12 @@ import { styles } from '@/constants/Styles';
 import { Ionicons } from '@expo/vector-icons';
 import { Link, Stack } from 'expo-router';
 import React, { useState } from 'react';
-import { View, Pressable, Text } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import {
+    View, Pressable, Text, TextInput
+} from 'react-native';
 import * as Crypto from 'expo-crypto';
 import { API } from '@/constants/API';
+import { Colors } from '@/constants/Colors';
 
 export default function Register() {
     const [id, setId] = useState('');
@@ -14,6 +16,7 @@ export default function Register() {
     const [password, setPassword] = useState('');
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
+    const [appError, setAppError] = useState<boolean>(false);
 
     function resetFields() {
         setUsername('');
@@ -44,14 +47,16 @@ export default function Register() {
         });
 
         if (!response.ok) {
+            setAppError(true);
             return console.error('Error en el registro');
         }
 
         const data = await response.json();
-        if('error' in data) {
+        if ('error' in data) {
+            setAppError(true);
             return console.error(data.error);
         }
-        
+
         resetFields();
     }
 
@@ -60,51 +65,64 @@ export default function Register() {
             <Stack.Screen options={{ title: 'Registro' }} />
             <Ionicons name="person-add-outline" size={24} style={styles.icon} />
             <Text style={styles.title}>Registro</Text>
+            {appError && <Text style={styles.error}>Error en el registro</Text>}
             <TextInput
+                placeholderTextColor={Colors.dark.text}
                 style={styles.input}
                 placeholder="Clave del usuario"
                 value={id}
                 onChangeText={setId}
+                onChange={() => setAppError(false)}
                 keyboardType="default"
                 autoCapitalize="none"
             />
             <TextInput
+                placeholderTextColor={Colors.dark.text}
                 style={styles.input}
                 placeholder="Nombre de usuario"
                 value={username}
                 onChangeText={setUsername}
+                onChange={() => setAppError(false)}
                 keyboardType="default"
                 autoCapitalize="none"
             />
             <TextInput
+                placeholderTextColor={Colors.dark.text}
                 style={styles.input}
                 placeholder="Nombre"
                 value={firstname}
                 onChangeText={setFirstname}
+                onChange={() => setAppError(false)}
                 keyboardType="default"
                 autoCapitalize="words"
             />
             <TextInput
+                placeholderTextColor={Colors.dark.text}
                 style={styles.input}
                 placeholder="Apellido"
                 value={lastname}
                 onChangeText={setLastname}
+                onChange={() => setAppError(false)}
                 keyboardType="default"
                 autoCapitalize="words"
             />
             <TextInput
+                placeholderTextColor={Colors.dark.text}
                 style={styles.input}
                 placeholder="Correo electrónico"
                 value={email}
                 onChangeText={setEmail}
+                onChange={() => setAppError(false)}
                 keyboardType="email-address"
                 autoCapitalize="none"
             />
             <TextInput
+                placeholderTextColor={Colors.dark.text}
                 style={styles.input}
                 placeholder="Contraseña"
                 value={password}
                 onChangeText={setPassword}
+                onChange={() => setAppError(false)}
                 secureTextEntry
             />
             <Pressable onPress={handleSubmit} style={styles.button}>

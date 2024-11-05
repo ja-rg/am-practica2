@@ -32,5 +32,6 @@ export const Colors = {
     primary: '#0a7ea4',
     shadow: '#9BA1A6',
     border: '#9BA1A6',
+    error: '#CF6679',
   },
 };

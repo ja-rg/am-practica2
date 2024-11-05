@@ -1,12 +1,20 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "./Colors";
+import { useFonts } from "expo-font";
 
 export const styles = StyleSheet.create({
+    error: {
+        color: Colors.dark.error,
+        fontSize: 24,
+        marginBottom: 20,
+        fontFamily: 'Glametrix',
+    },
     colaboradorContainer: {
         backgroundColor: Colors.dark.background,
         margin: 10,
         padding: 10,
         borderRadius: 5,
+        borderColor: Colors.dark.border,
     },
 
     colaboradorName: {
@@ -25,7 +33,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     title: {
-        fontSize: 30,
+        fontSize: 44,
         marginBottom: 20,
         color: Colors.dark.text,
 
@@ -37,6 +45,7 @@ export const styles = StyleSheet.create({
         borderBottomColor: Colors.dark.border,
         borderBottomWidth: 1,
         padding: 10,
+        fontFamily: 'Glametrix',
     },
     input: {
         width: '80%',
@@ -60,6 +69,7 @@ export const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
+        paddingHorizontal: 10,
 
         shadowColor: Colors.dark.text,
         shadowOffset: { width: 3, height: 3 },
@@ -69,12 +79,13 @@ export const styles = StyleSheet.create({
 
     button_text: {
         color: Colors.dark.text,
-        fontSize: 16,
+        fontSize: 24,
 
         // Shadow
         textShadowColor: Colors.dark.text,
         textShadowOffset: { width: .5, height: .5 },
         textShadowRadius: 2,
+        fontFamily: 'Glametrix',
     },
 
     link_button: {
@@ -97,12 +108,13 @@ export const styles = StyleSheet.create({
 
     link_button_text: {
         color: Colors.dark.primary,
-        fontSize: 16,
+        fontSize: 24,
 
         // Shadow
         textShadowColor: Colors.dark.primary,
         textShadowOffset: { width: .5, height: .5 },
         textShadowRadius: 2,
+        fontFamily: 'Glametrix',
     },
     icon: {
         color: Colors.dark.text,
@@ -123,23 +135,26 @@ export const styles = StyleSheet.create({
 
     label_data: {
         color: Colors.dark.text,
-        fontSize: 20,
+        fontSize: 34,
         marginBottom: 10,
         backgroundColor: Colors.dark.background,
+        fontFamily: 'Glametrix',
     },
 
     data: {
         color: Colors.dark.text,
-        fontSize: 16,
+        fontSize: 24,
         marginBottom: 20,
 
         fontStyle: 'italic',
+        fontFamily: 'Glametrix',
     },
 
     body_text: {
         color: Colors.dark.text,
-        fontSize: 16,
+        fontSize: 24,
         marginBottom: 20,
+        fontFamily: 'Glametrix',
     },
 
     camera: {
