@@ -1,6 +1,6 @@
 import { styles } from '@/constants/Styles';
 import { Ionicons } from '@expo/vector-icons';
-import { Link, Stack } from 'expo-router';
+import { Link, router, Stack } from 'expo-router';
 import React, { useState } from 'react';
 import {
     View, Pressable, Text, TextInput
@@ -19,6 +19,7 @@ export default function Register() {
     const [appError, setAppError] = useState<boolean>(false);
 
     function resetFields() {
+        setId('');
         setUsername('');
         setEmail('');
         setPassword('');
@@ -34,7 +35,7 @@ export default function Register() {
 
         const formData = new FormData();
         formData.append('token', 'code37');
-        formData.append('id', '201');
+        formData.append('id', id);
         formData.append('username', username.replace(/\s+/g, ''));
         formData.append('pass', hashedPassword);
         formData.append('firstname', firstname);
@@ -58,6 +59,7 @@ export default function Register() {
         }
 
         resetFields();
+        router.replace('/');
     }
 
     return (
