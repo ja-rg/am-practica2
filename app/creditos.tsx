@@ -1,8 +1,8 @@
 import { styles } from "@/constants/Styles";
 import { useUser } from "@/context/User"
-import { Link, router, Stack, useRouter } from "expo-router";
+import { Link, Stack } from "expo-router";
 
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { NotLogged } from "@/components/not-logged";
 import { APP_NAME, Equipo } from "@/constants/Colaboradores";
 

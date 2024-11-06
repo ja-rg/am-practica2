@@ -4,7 +4,6 @@ import { Link, Stack, useRouter } from "expo-router";
 import { Text, View, Pressable, TouchableOpacity } from 'react-native';
 import { Image } from "expo-image";
 import { NotLogged } from "@/components/not-logged";
-import { useState } from "react";
 
 
 export default function Home() {
