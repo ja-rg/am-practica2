@@ -9,7 +9,6 @@ import { useUser } from "@/context/User";
 import { NotLogged } from "@/components/not-logged";
 import { router, Stack } from "expo-router";
 import { Ionicons } from '@expo/vector-icons';
-import { Colors } from '@/constants/Colors';
 import { API } from '@/constants/API';
 
 export default function Home() {
