@@ -36,7 +36,10 @@ export default function Home() {
     const takePicture = async () => {
         if (cameraRef) {
             try {
-                const photo = await cameraRef.takePictureAsync({ base64: true });
+                const photo = await cameraRef.takePictureAsync({
+                    imageType: 'jpg',
+                    quality: 0,
+                });
                 setIsPreview(true);
                 setCapturedImage(photo);
             } catch (error) {
