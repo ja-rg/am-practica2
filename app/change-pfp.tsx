@@ -149,6 +149,7 @@ export default function Home() {
                     style={styles.camera}
                     ref={(ref) => setCameraRef(ref)}
                     facing={facing}
+                    pictureSize='640x480'
                 >
                     <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', marginBottom: 36, padding: 10 }}>
                         <TouchableOpacity
