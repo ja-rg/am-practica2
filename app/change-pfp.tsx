@@ -1,6 +1,6 @@
 import { CameraCapturedPicture, CameraType, CameraView } from 'expo-camera';
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Alert, Pressable } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, Pressable, Platform } from 'react-native';
 import { Image } from "expo-image";
 
 import { Camera } from 'expo-camera';
@@ -67,7 +67,11 @@ export default function Home() {
                 formData.append('id', user.id); // Replace `userId` with the actual user ID
 
                 // Append the image
-                formData.append('image', blob, 'profile.jpg');
+                formData.append('image', {
+                    uri: Platform.OS === 'ios' ? capturedImage.uri.replace('file://', '') : capturedImage.uri,
+                    name: 'image',
+                    type: 'image/png'
+                });
 
                 const uploadResponse = await fetch(API.perfil, {
                     method: 'POST',
@@ -115,7 +119,7 @@ export default function Home() {
         return <View style={styles.container}>
             <Stack.Screen options={{ title: 'Mi perfil' }} />
             <Ionicons name="camera-outline" size={24} style={styles.icon} />
-            <Text style={{...styles.title, fontFamily: "Glametrix"}}> No tienes permisos para usar la cámara</Text>
+            <Text style={{ ...styles.title, fontFamily: "Glametrix" }}> No tienes permisos para usar la cámara</Text>
             <Pressable onPress={() => router.back()} style={styles.button}>
                 <Text style={styles.button_text}>Volver</Text>
             </Pressable>
